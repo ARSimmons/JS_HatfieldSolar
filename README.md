@@ -13,6 +13,7 @@
 	- GIS/WebGIS development...
 * "David Elvin" <DElvin@PVPC.org>
 	- Solar calculations....
+	
 # <a name="project-summary"></a>Project Summary
 This code sample (note: all css/js is inline) was designed to demonstrate the visualization capabilities using the Google Maps (v.3) and Google Fusion Tables API.
 
