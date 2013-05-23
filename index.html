@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+  <!--TITLE: Hatfield Solar Map
+	PURPOSE: This map was designed as a demonstration for DOER 
+	to show the capabilities of using Google Maps / Fusion Tables API to 
+	map solar potential in Hatfield, MA. Inline CSS/JS was used. JS comments
+	were kept ABOVE the element described, primarily for consistency reasons.
+	AUTHOR: Arielle Simmons, Pioneer Valley Planning Commission.
+	--->	
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Hatfield Solar Map</title>
+  <link type="text/css" href="style.css" rel="stylesheet" media="screen" />
+  <script type="text/javascript" src="jquery-1.3.1.min.js"></script>
+  <script type="text/javascript" src="menu.js"></script>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <style type="text/css">
+      
+	html { height: 100% }
+
+	
+	body { 
+		height: 100%; 
+		margin:0; 
+		padding:0; 
+		font-size: 14px;
+		font-family: geneva,tahoma, sans-serif; 
+	}
+	
+	a:focus {
+		outline: none;
+	}
+	
+	h1 {
+		font-size: 34px;
+		letter-spacing:-2px;
+		color:#ffffff;
+		font-weight:700;
+		padding:20px 0 0;
+	}
+	 
+	h1.logo {
+		font-size: 34px;
+		letter-spacing:-2px;
+		color:#ffffff;
+		font-weight:600;
+		padding:5px 0 0;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+		
+	h2 {
+		font-size: 24px;
+		font-weight: 400;
+		padding: 0 0 10px;
+	}
+	 
+	h2.warning {
+		padding: 0 0 10px;
+		margin: 20px 0 20px 0;
+		color:#ffffff;
+		font-size:12px;
+		text-align: left;
+		font-family: geneva,tahoma, sans-serif; 
+	} 
+	 
+	h3 {
+		font-size:12px;
+		letter-spacing:-1px;
+		font-weight: 660;
+		text-transform:uppercase;
+		margin:0;
+		padding:0px;
+	}
+	
+	h3.display {
+		font-size:12px;
+		letter-spacing:-1px;
+		font-weight: 660;
+		text-transform:uppercase;
+		margin:5px;
+		padding:0px;
+		color: #ffffff;
+		background:#333333;
+		border:1px solid #444444;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px;
+		text-align: center;
+	}
+	
+	
+	h3.warning {
+		font-size:14px;
+		letter-spacing:-1px;
+		font-weight: 700;
+		margin:0;
+		padding:8px 0 8px 0;
+		color:#ffffff;
+		text-align: center;
+		font-family: geneva,tahoma, sans-serif; 
+	}
+	 
+	p {
+		line-height:17px;
+		padding: 0 0 10px;
+		margin: 20px 0 20px 0;
+		
+	}
+	
+
+	
+	#container  {
+		clear: both;
+		margin: 0;
+		padding: 0;
+	}
+	 
+	#container a{
+		float: right;
+		background: #9FC54E;
+		border: 1px solid #9FC54E;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius:20px; 
+		text-decoration: none;
+		font-size: 16px;
+		letter-spacing:-1px;
+		color:#fff;
+		padding: 20px;
+		font-weight: 700;
+	}
+	 
+	#container a:hover{
+		float: right;
+		background: #a0a0a0;
+		border: 1px solid #cccccc;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius:20px; 
+		text-decoration: none;
+		font-size: 16px;
+		letter-spacing:-1px;
+		color:#fff;
+		padding: 20px;
+		font-weight: 700;
+	}
+	 
+	.content {
+		font-style:normal;
+		color:#ffffff;
+		background:#333333;
+		border:1px solid #444444;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px; 
+		margin: 30px 0 50px;
+		padding: 15px 0;
+	}
+ 
+	.content p {
+		margin: 10px 0;
+		padding: 15px 20px;
+	}
+	 
+	.panel {
+		position: fixed;
+		top: 310px;
+		left: 0;
+		display: none;
+		background: #000000;
+		border:1px solid #111111;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius:20px; 
+		width: 330px;
+		height: auto;
+		padding: 30px 30px 30px 190px;
+		filter: alpha(opacity=85);
+		opacity: .85;
+	}
+	 
+	.panel p{
+		padding: 0;
+		color: #cccccc;
+	}
+	 
+	.panel a, .panel a:visited{
+		margin: 0;
+		padding: 0;
+		color: #9FC54E;
+		text-decoration: none;
+		border-bottom: 1px solid #9FC54E;
+	}
+	 
+	.panel a:hover, .panel a:visited:hover{
+		margin: 0;
+		padding: 0;
+		color: #ffffff;
+		text-decoration: none;
+		border-bottom: 1px solid #ffffff;
+	}
+	 
+	a.trigger  {
+		position: fixed;
+		text-decoration: none;
+		top: 310px; left: 0;
+		font-size: 16px;
+		letter-spacing:-1px;
+		font-family: verdana, helvetica, arial, sans-serif;
+		color:#fff;
+		padding: 20px 40px 20px 15px;
+		font-weight: 700;
+		background:#333333;
+		border:1px solid #444444;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius:20px; 
+		display: block;
+	}
+	 
+	a.trigger:hover{
+		position: fixed;
+		text-decoration: none;
+		top: 310px; left: 0;
+		font-size: 16px;
+		letter-spacing:-1px;
+		font-family: verdana, helvetica, arial, sans-serif;
+		color:#fff;
+		padding: 20px 40px 20px 20px;
+		font-weight: 700;
+		background:#222222 url(images/plus.png) 85% 55% no-repeat;
+		border:1px solid #444444;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px; 
+		display: block;
+	}
+	 
+	a.active.trigger {
+		background:#222222 85% 55% no-repeat;
+	}
+	
+	.columns {
+		clear: both;
+		width: 330px;
+		padding: 0 0 20px 0;
+		line-height: 22px;
+	}
+	 
+	.colleft {
+		float: left;
+		width: 130px;
+		line-height: 22px;
+	}
+	 
+	.colright {
+		float: right;
+		width: 130px;
+		line-height: 22px;
+	}
+	
+	#container-2  {
+		clear: both;
+		margin: 0;
+		padding: 0;
+	}
+	 
+	#container-2 a{
+		float: right;
+		background: #9FC54E;
+		border: 1px solid #9FC54E;
+		border-radius:20px;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px; 
+		text-decoration: none;
+		font-size: 16px;
+		letter-spacing:-1px;
+		color:#fff;
+		padding: 20px;
+		font-weight: 700;
+	}
+	 
+	#container-2 a:hover{
+		float: right;
+		background: #a0a0a0;
+		border: 1px solid #cccccc;
+        -moz-border-radius:20px;
+		-webkit-border-radius:20px; 
+		border-radius:20px;
+		text-decoration: none;
+		font-size: 16px;
+		letter-spacing:-1px;
+		color:#fff;
+		padding: 20px;
+		font-weight: 700;
+	}
+	 
+	.content-2 {
+		font-style:normal;
+		color:#ffffff;
+		background:#333333;
+		border:1px solid #444444;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px;  
+		border-radius:20px;
+		margin: 30px 0 50px;
+		padding: 15px 0;
+	}
+ 
+	.content-2 p {
+		margin: 10px 0;
+		padding: 15px 20px;
+	}
+	 
+	.panel-2 {
+		position: fixed;
+		top: 475px;
+		left: 0;
+		display: none;
+		background: #000000;
+		border:1px solid #111111;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px;    
+		border-radius:20px;
+		width: 330px;
+		height: auto;
+		padding: 30px 30px 30px 130px;
+		filter: alpha(opacity=85);
+		opacity: .85;
+	}
+	 
+	.panel-2 p{
+		margin: 0 0 15px 0;
+		padding: 0;
+		color: #cccccc;
+	}
+	 
+	.panel-2 a, .panel-2 a:visited{
+		margin: 0;
+		padding: 0;
+		color: #9FC54E;
+		text-decoration: none;
+		border-bottom: 1px solid #9FC54E;
+	}
+	 
+	.panel-2 a:hover, .panel-2 a:visited:hover{
+		margin: 0;
+		padding: 0;
+		color: #ffffff;
+		text-decoration: none;
+		border-bottom: 1px solid #ffffff;
+	}
+	 
+	a.trigger-2  {
+		position: fixed;
+		text-decoration: none;
+		top: 475px; left: 0;
+		font-size: 16px;
+		letter-spacing:-1px;
+		font-family: verdana, helvetica, arial, sans-serif;
+		color:#fff;
+		padding: 20px 40px 20px 15px;
+		font-weight: 700;
+		background:#333333 url(images/plus.png) 85% 55% no-repeat;
+		border:1px solid #444444;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px;    
+		border-radius:20px;
+		display: block;
+	}
+	 
+	a.trigger-2:hover{
+		position: fixed;
+		text-decoration: none;
+		top: 475px; left: 0;
+		font-size: 16px;
+		letter-spacing:-1px;
+		font-family: verdana, helvetica, arial, sans-serif;
+		color:#fff;
+		padding: 20px 40px 20px 20px;
+		font-weight: 700;
+		background:#222222 url(images/plus.png) 85% 55% no-repeat;
+		border:1px solid #444444;
+        -moz-border-radius:20px;
+		-webkit-border-radius: 20px;
+		border-radius:20px;	
+		display: block;
+	}
+	 
+	a.active.trigger-2 {
+		background:#222222 85% 55% no-repeat;
+	}
+	
+	.columns-2 {
+		clear: both;
+		width: 330px;
+		padding: 0 0 20px 0;
+		line-height: 22px;
+	}
+	 
+	.colleft-2 {
+		float: left;
+		width: 130px;
+		line-height: 22px;
+	}
+	 
+	.colright-2 {
+		float: right;
+		width: 130px;
+		line-height: 22px;
+	}
+	
+	ul{
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+	}
+	 
+	ul li{
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+	}
+	  
+#hatfield_map { height: 100% }
+	  
+#map-wrapper {
+	       position: relative;
+		   height: 100%;
+	}
+
+#triqui_container {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+	font-size: 12px;
+	text-color: #fff;
+	}
+ 
+#triqui_ad{
+	background: rgba(0,0,0, 0.5);
+	border:1px solid #666; 
+	font-size: 16px;
+	text-color: #fff;
+	letter-spacing:-1px;
+	color:#fff;
+    height: 76px;
+    text-align: left;
+    display:none;
+	}
+ 
+#triqui_ad_close {
+    cursor: pointer;
+    text-decoration: underline;
+	} 
+
+#sidebarItem {
+	       position: absolute;
+		   right: 0px;
+		   top: 10px;
+		   width: 300px;
+		   height: 90%;
+		   overflow: auto;
+		   background: rgba(46,131,247, 100);
+		   border: 1px solid #9FC54E;
+		   border-radius:20px;
+		   -moz-border-radius:20px;
+		   -webkit-border-radius:20px;    
+		   padding: 0px 5px 0px 10px;
+	}	 
+
+#sidebar-content-area {
+		background: #FFFFFF;
+		border: 1px solid #EBEBEB;
+		height: 58%;
+		margin-top: 5px;
+		width: 198 px;
+	}
+	
+#overview {
+		background: #FFFFFF;
+		border: 0px;
+		position: relative;
+		width: 198 px;
+	}
+
+.panel-tab {
+    background: #FFFFFF;
+    padding: 10px;
+	font-size:14px;
+	font-family: geneva,tahoma, sans-serif;
+	color: blue;
+}
+
+    </style>
+	<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/themes/base/jquery-ui.css" rel="stylesheet" />	
+    <script type="text/javascript"
+      src="https://www.google.com/jsapi">
+    </script>
+    <script type="text/javascript">
+	google.load('maps', '3.5', {other_params:'sensor=false'});
+	google.load('jquery', '1.6.0');
+	google.load('jqueryui', '1.8.12');
+	google.load('visualization', '1', {packages: ['corechart']});
+	</script>
+	<script type="text/javascript">
+	
+// global function to create column chart from fusion table data
+
+	function drawVisualization(e) {
+
+			var data = google.visualization.arrayToDataTable([
+			  ['Area', 'Bldg. Solar Area', 'Bldg. Roof Area'],
+			  ['Building',  Math.round(e.row['POTENTIAL_'].value), Math.round(e.row['TOTAL_ROOF'].value)],
+			]);
+
+			var options = {
+			  title: 'Available Roof Area for Solar Panels (sq. ft)',
+			  titleTextStyle: {color: '#5c5c5c'},
+			  chartArea: {width:"70%", height:"70%"},
+			  legend: 'bottom',
+			};
+
+			var chart = new google.visualization.ColumnChart(document.getElementById('visualization_div'));
+			chart.draw(data, options);
+		};
+	
+		
+// utilzes the trigger button to enable to sliding information panel
+// function based off demo materials 
+// by spryestudios.com (see: http://spyrestudios.com/how-to-create-a-sexy-vertical-sliding-panel-using-jquery-and-css3/ )
+	$(document).ready(function(){
+	    $(".trigger").click(function(e){
+	        $(".panel").eq($(this).index(".trigger")).toggle("fast");
+	        $(this).toggleClass("active");
+			e.preventDefault();
+	    });
+
+// dynamic sticky footer with a close function
+		$.ajaxSetup({cache:false});
+		$('#triqui_ad').wrap('<div id="triqui_container"></div>');
+		$('#triqui_ad').load('ajax.php',function(){
+			$('#triqui_ad').css('display','block');
+			$('#triqui_container').hide().slideDown('slow');
+			$('#triqui_ad').append(' &bull; <a id="triqui_ad_close">Close</a> ');
+			$('#triqui_ad_close').click(function(){
+				   $('#triqui_container').slideUp('slow');
+			  });
+		});
+	});
+	
+
+
+
+// Add a global variable that will store the geocode object outside of the initialize function
+      var geocoder;
+	  var map;
+
+// function that initializes/creates the map object 
+      function initialize() {
+
+// set the geocoder variable equal to the instance of the google maps geocoder object
+		geocoder = new google.maps.Geocoder();
+
+//declare variables for map set up
+        map  = new google.maps.Map (document.getElementById('hatfield_map'), {
+          center: new google.maps.LatLng(42.37098, -72.59818),
+          zoom: 17,
+		  mapTypeControl: true,
+		  mapTypeControlOptions: {
+			style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+			position: google.maps.ControlPosition.TOP_LEFT
+		},
+		
+		zoomControl: true,
+		zoomControlOptions: {
+			style: google.maps.ZoomControlStyle.LARGE,
+			position: google.maps.ControlPosition.LEFT_TOP	
+		},
+		panControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+		  
+        });
+// Set up a styles array to fill in color for the different polygon types based on the query
+// of the value 'TYPE' in the FusionTable...		
+        var layer = new google.maps.FusionTablesLayer({
+              query:{
+                select: 'geometry',
+                from: '1DGswslbC5ijqWHPJvOH1NH7vltkZIPURJun_L5I'
+		      },
+// Set up the stroke color and opacity of all polygons...
+		      styles: [{
+		        polygonOptions: {
+				   strokeColor: '#00ffff',
+				   strokeOpacity: .4,
+			       strokeWeight: .5
+		        }
+		      }, {
+// Set TYPE 'EXCELLENT' to orange-red R-G-B, 255-69-0
+		       where: "'TYPE' MATCHES 'EXCELLENT'",
+               polygonOptions: {
+                  fillColor: '#ff4500',
+			      fillOpacity: 10
+               }
+		     }, {
+// Set TYPE 'VERY GOOD' to dark orange R-G-B, 255-140-0
+		       where: "'TYPE' MATCHES 'VERY GOOD'",
+		       polygonOptions: {
+			      fillColor: '#ff8c00',
+			      fillOpacity: 7
+		        }
+		     }, {
+// Set TYPE 'GOOD' to goldenrod R-G-B, 184-134-11
+		       where: "'TYPE' MATCHES 'GOOD'",
+		       polygonOptions: {
+		          fillColor: '#b8860b',
+			      fillOpacity: 7
+		       }
+		     }, {
+// Set TYPE 'LOW' to Black R-G-B, 0,0,0
+              where: "'TYPE' MATCHES 'LOW'",
+		      polygonOptions: {
+		         fillColor: '#000000',
+			     fillOpacity: 10
+		      }
+		     }],
+			 
+//Turn off the default InfoWindow features
+
+    suppressInfoWindows: true			 
+			});
+			
+
+// Format numbers to two decimals with commas using Google Visualization API
+
+	var formatter = new google.visualization.NumberFormat({
+			pattern: '#,###,###.##'
+		});
+
+
+// Populate 'sidebar-content-area' with the appropriate text depending
+// on the user's behavior. The '.addListener' function creates the 
+// html and the graph that will be added to the sidebar based on 
+// the users click....			
+
+			google.maps.event.addListener(layer, 'click', function(e) {
+			 $("#roof-panel-area").html(
+			 '<h3 class="display">Roof/Panel Totals:</h3>' +
+			 '<strong>Total Roof Area (sqft)</strong>: ' + '&nbsp;' + formatter.formatValue(Math.round(e.row['TOTAL_ROOF'].value)) + 
+			 '<br><strong> Potential Roof Area (sqft)</strong>:' + '&nbsp;' + formatter.formatValue(Math.round(e.row['POTENTIAL_'].value)) + 
+			 '<br><strong> Pitched or Flat Roof (?)</strong>:'+ '&nbsp;' +  e.row['PITCHED_OR'].value + 
+			 '<br><strong> # of Panels per Roof Area :</strong>' + '&nbsp;' + formatter.formatValue(Math.round(e.row['NUMBER_OF_'].value)) +
+			 '<br>' +
+			 '<h3 class="display">Energy Totals:</h3>' +
+			 '<strong>Watts generated:</strong>' + '&nbsp;' + formatter.formatValue(Math.round(e.row['WATTS'].value)) + 
+			 '<br><strong> Annual KWH </strong>:' + '&nbsp;' + formatter.formatValue(Math.round(e.row['KWH_PER_YR'].value)) + 
+			 '<br><strong> Cost of Elec. PER Year</strong>:' + '&nbsp;' + '$' + '&nbsp;' + formatter.formatValue(e.row['ANNUAL_DOL'].value) + 
+			 '<br><strong> Cost of Elec. PER Month</strong>:' + '&nbsp;' + '$' + '&nbsp;' + formatter.formatValue(e.row['MONTHLY_DO'].value)  
+			  );
+			 drawVisualization(e);
+			});
+
+// ...and this jquery function is a one-time 'div disappear finction'. Anything within
+// the css class '.panel-tab' will disappear as soon as the user clicks anywhere OUTSIDE
+// the div container...note: the text will NOT return after its initial 'disappearance'. 
+// this function is based on an example seen on stackoverflow. More editing will be done
+// to have this box return if the 'sidebar-content-area' is empty.
+		
+		var $doc, $panel = $('.panel-tab');
+			$doc = $(document);
+			$doc.bind("click", function(){
+			   $panel.hide();
+			   $doc.unbind("click");
+			});
+
+			$panel.bind("click", function(e){
+			   e.stopPropagation();
+			});
+				
+									
+		layer.setMap(map);
+	
+	}
+
+// On the map windows initial load open an alert box will tell the
+// user what they need to do to proceed
+  		
+		google.maps.event.addDomListener(window, 'load', function(printWarn) {
+			alert("Welcome to the Hatfield Solar Map project - please click on a building to learn more about its solar potential!");
+
+		});
+
+// The function and design for the address box is 
+// based on code presented by the developers at 'http://www.mckissock.com'
+	 function codeAddress(){
+
+//The first line of the function uses getElementByID to get the address from the text box and place it 
+//into a variable called sAddress.
+	   var sAddress = document.getElementById("inputTextAddress").value;
+
+//Call the geocode method of the geocoder object, this will take two passed in parameters. The first is
+// the GeocoderRequest, this says what kind of request is being made and what the request value is.
+// the second is the callback function that will be used to process the results.
+       geocoder.geocode({ 'address': sAddress }, function(results, status) {
+
+     	   //This callback function should first check the status value of the callback function. Using an IF statement to
+           //check if the status equal google.maps.GeocoderStatus.OK. 
+           if (status = google.maps.GeocoderStatus.OK) {
+		       map.setCenter(results[0].geometry.location);
+			   // Use the same result geometry location to add a map marker to the 
+			   // map object variable. Create a new variable (i.e. Marker) and it will be 
+			   // created as a new google.maps.Marker. The new method will take two
+			   // parmeters, the first is the map object that you're adding the marker to,
+			   // and the second is the position to place the marker
+			   // which is again the first results geometry location.
+			   var marker = new google.maps.Marker({
+			       map: map,
+				   position: results[0].geometry.location
+			   });
+		   } else {
+		   //alert message to the ELSE to let the user know the Geocode didn't work
+		       alert("Geocode was not successful for the following reason: " + status);
+		  
+		  }
+	 });
+	}
+    </script>
+  </head>
+  
+  <!--Using the body tag, the onload events triggers the intial JavaSript code once the HTML page is fully loaded--->
+  <body onload="initialize()">
+	<div id="map-wrapper" class="sidebarItem">
+	    <div id= "hatfield_map" style="width:100%; height:100px%"></div>
+	</div>
+	<div id="container">
+	</div>
+		<div class="panel">
+		<br><br>
+	    <p>Buildings are symbolized according to roof size, and the possibility of increased panel placement.<br></p>
+		<p>Clicking on the buildings will show you how much roof space (exactly) is available for panel placement.</p>
+		<img class= border="1px solid #c0c0c0" style="margin-right" padding:"20px" src="images/legend-II.gif"/>
+		</div>
+	<a class="trigger" href="#">Map Legend</a>
+	<div id="container-2">
+	</div>
+		<div class="panel panel-2">
+		<br><br>
+	    <p>The numbers provided are based off of the 'best available' data.</p>
+		<p><strong>Watts generated =</strong> # of Panels * 250kw</p>
+		<p><strong>Annual KWH =</strong> Watts generated / 1.18125 (*includes est. daylight/cloud conditions)</p>
+		<p><strong>Value of Electricity PER Year =</strong> Electricity PER Year / 12</p>
+		<p><strong>Value of Electricity PER Month =</strong> Electricity PER Year / 12</p>
+		</div>
+	<a class="trigger trigger-2" href="#">Information</a>
+	<div id="sidebarItem">
+	    <h1 class ="logo">Hatfield Solar Map</h1>
+	    <!---Create a text box input for the user to enter the street address-->
+		<table align="left">
+		<tr>
+		<th class="not_mapped_style" align="left">Address:</th>
+		</tr>
+		</table>
+		<table align="center">
+		<tr>
+		<td><input type="text" id="inputTextAddress" style=" width:200px" title="Address to Geocode" /></td>
+		</tr>
+		<tr>
+		<!--Create a button input for the user to click to geocode the address-->
+		<td><input type="button" onclick="codeAddress()" id="inputButtonGeocode" style="width: 200px;" title="Click to Find Address" value="Click to Find Address" /></td>
+		</tr>
+		</table>
+		<h3 class="warning">Enter your address to find the solar potential of nearby buildings.</h3>
+		<br>
+		<h2 class="warning">It is recommended to use this map without minimizing your browser window. Please make sure that Javascript is enabled!</h2>
+		<!---SidebarContent--->
+		<hr/>
+		<div id="sidebar-content-area" style="padding:3px;">
+			<div id="intro" style="text-align: center; margin-top: 20px; display: none;">
+			</div>
+		<div id="overview" style:" ">
+			<p id="roof-panel-area"></p>
+			<div id = "visualization_div" style="width: 100%; height: 266%; align=center; padding=6px;">
+		<div class="panel-tab">Select a building outline OR search for an address AND THEN identify buildings that you'd like to select.</div>
+		</div>
+		</div>
+		</div>
+	</div>
+        <!--Start Sticky Footer/Logos--->	
+		<div id = "triqui_container">
+		<div id="triqui_ad" style="display: block;">
+		<table align="right">
+		<tr>
+		<th class="not_mapped_style" align="center" valign="top"><h3>Links & Materials provided by:</h3></th>
+		<td width ="60" valign="bottom"><img class= width="80" height="60" border="1px solid #c0c0c0" padding:"5px" src="images/doer-logo.gif"/></td>
+		<td width="60" valign="bottom"><img class= width="60" height="60" border="1px solid #c0c0c0" padding:"5px" src="images/new_logo_banner_grey_background.gif"/></td>
+		</tr>
+		</table>
+		</div>
+		</div>
+		<!--End Sticky Footer/Logos--->	
+  </body>
+</html>
