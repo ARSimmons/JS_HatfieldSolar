@@ -3,9 +3,7 @@
 <head>
 </head>
 <body>
-
 # Table of Contents
-
 [Team Members](#team-members)
 
 [Project Summary](#project-summary)
@@ -30,7 +28,7 @@ Results from this exercise was shared by Arielle Simmons at the Spring 2013 NEAR
 
 A live demo of this WebGIS can be viewed [here](http://tinyurl.com/ccdvzer "here").
 
-![Screenshot](ARSimmons.github.com/images1/master/Screenshot.JPG)
+![Screenshot](https://github.com/ARSimmons/JS_HatfieldSolar/blob/master/images/Screenshot.JPG)
 
 
 *THIS PROJECT IS STILL IN PROCESS 5/22/2013*
