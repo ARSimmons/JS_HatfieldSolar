@@ -25,7 +25,7 @@ Other libraries/API's were utilized/experimented with throughout the development
 * [Google Fusion Tables API](https://developers.google.com/fusiontables/ "Google Fusion Tables API")
 * [jQuery](http://jquery.com/ "jQuery")
 
-Results from this exercise was shared by Arielle Simmons at the Spring 2013 NEARC (Amherst, MA): [Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API](http://www.slideshark.com/Landing.aspx?pi=zFhzjBv13zC7LNz0 "Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API").
+Results from this exercise was shared by Arielle Simmons at the Spring 2013 NEARC (Amherst, MA): [Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API](http://gis.amherstma.gov/data/springnearc2013/Session3/MapServices/NEARC_ASimmons_5_14_13.pdf "Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API").
 
 (Note: Google Drive no longer hosts this webpage. You can preview this by downloading and double-clicking on the 'index.html' file).
 
