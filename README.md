@@ -27,7 +27,7 @@ Other libraries/API's were utilized/experimented with throughout the development
 
 Results from this exercise was shared by Arielle Simmons at the Spring 2013 NEARC (Amherst, MA): [Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API](http://www.slideshark.com/Landing.aspx?pi=zFhzjBv13zC7LNz0 "Bridging GIS Environments : using FWTools, OGR/GDAL, and Google Maps/Fusion Tables API").
 
-A live demo of this WebGIS can be viewed [here](http://tinyurl.com/ccdvzer "here").
+(Note: Google Drive no longer hosts this webpage. You can preview this by downloading and double-clicking on the 'index.html' file).
 
 ![Screenshot](https://raw.github.com/ARSimmons/JS_HatfieldSolar/master/images/Screenshot.JPG)
 
